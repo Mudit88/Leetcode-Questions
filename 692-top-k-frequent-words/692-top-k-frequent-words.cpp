@@ -2,33 +2,33 @@ class Solution {
 public:
     vector<string> topKFrequent(vector<string>& words, int k) {
         unordered_map<string,int> mp;
-        for(string &s : words)
+        int ans = INT_MIN;
+        for(string s : words)
         {
             mp[s]++;
+            ans = max(ans,mp[s]);
         }
-        map<int,set<string>,greater<int>> ms;
-        for(auto &x : mp)
+        vector<priority_queue<string,vector<string>,greater<string>>> a(ans);
+        for(int i = 0;i<ans;i++)
         {
-            ms[x.second].insert(x.first);
+            priority_queue<string,vector<string>,greater<string>> x;
+            a[i] = x;
         }
-        vector<string> v;
-        for(auto &c : ms)
+        for(auto m : mp)
         {
-            if(k>0)
+            a[m.second-1].push(m.first);
+        }
+        vector<string> answer;
+        for(int i = a.size()-1;i>=0 and k>0;i--)
+        {
+            while(k>0 and !a[i].empty())
             {
-                for(string p : c.second)
-                {
-                    if(k>0)
-                    {
-                        v.push_back(p);
-                        k--;
-                    }
-                    else break;
-                }
+                answer.push_back(a[i].top());
+                a[i].pop();
+                k--;
             }
-            else break;
         }
-        return v;
+        return answer;
         
     }
 };
