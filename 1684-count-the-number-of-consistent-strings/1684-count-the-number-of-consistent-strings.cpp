@@ -9,7 +9,11 @@ public:
             bool flag = true;
             for(char c : s)
             {
-                if(p.count(c)==0)flag=false;
+                if(p.count(c)==0)
+                {
+                    flag=false;
+                    break;
+                }
             }
             if(flag)count++;
         }
